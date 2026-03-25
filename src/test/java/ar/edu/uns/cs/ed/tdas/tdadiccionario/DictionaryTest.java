@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.Vector;
 
 import org.junit.Test;
+import org.junit.Assume;
 import org.junit.Before;
 
 
@@ -21,7 +22,9 @@ public class DictionaryTest {
 
 	private Dictionary<Integer, Integer> getDictionary() {
 
-		return new DiccionarioHashAbierto<Integer, Integer>();
+		Dictionary<Integer, Integer> d = null;
+		//d = new DiccionarioHashAbierto<Integer, Integer>(); //TODO: Descomentar y crear instancia del TDA a testear
+		return d;
 
 	}
 
@@ -29,6 +32,7 @@ public class DictionaryTest {
 	public void setUp() {
 
 		s = getDictionary();
+		Assume.assumeNotNull(s);
 
 	}
 	
@@ -453,7 +457,7 @@ public class DictionaryTest {
 		boolean esta;
 		
 	    //Diccionario vacío
-		assertTrue("Entris no funciona correctamente para un diccionario vacío", ((s.entries()!=null)&&(!s.entries().iterator().hasNext())));
+		assertTrue("El método entries() no funciona correctamente para un diccionario vacío", ((s.entries()!=null)&&(!s.entries().iterator().hasNext())));
 			
 			
 		// Insertando 1000 elementos
