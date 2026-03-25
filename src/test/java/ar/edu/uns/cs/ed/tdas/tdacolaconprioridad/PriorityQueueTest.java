@@ -5,6 +5,7 @@ import ar.edu.uns.cs.ed.tdas.Entry;
 
 import static org.junit.Assert.*;
 
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,8 +15,9 @@ public class PriorityQueueTest {
 	private Integer i1, i2, i3, i4, i5, i6;
 
 	private PriorityQueue<Integer, String> getPriorityQueue() {
-		return new CCPconLista<Integer, String>(new Comparador<Integer>());
-
+		PriorityQueue<Integer, String> ccp = null;
+		//ccp = new CCPconLista<Integer, String>(new Comparador<Integer>()); //TODO: Descomentar y crear instancia del TDA a testear
+		return ccp;
 	}
 
 	@Before
@@ -33,7 +35,7 @@ public class PriorityQueueTest {
 		i4 = 4;
 		i5 = 5;
 		i6 = 6;
-
+		Assume.assumeNotNull(s);
 	}
 /*_______________________TESTEAMOS EL METODO size()_____________________________*/
 	@Test
@@ -62,7 +64,7 @@ public class PriorityQueueTest {
 		try {
 			s.min();
 			assertTrue(
-					"Tamaño de la cola con prioridad cambio después de invocar min()",
+					"Tamaño de la cola con prioridad cambió después de invocar min()",
 					s.size() == 3);
 			s.removeMin();
 			assertTrue(
@@ -70,7 +72,7 @@ public class PriorityQueueTest {
 					s.size() == 2);
 			s.min();
 			assertTrue(
-					"Tamaño de la cola con prioridad cambio después de invocar min()",
+					"Tamaño de la cola con prioridad cambió después de invocar min()",
 					s.size() == 2);
 			s.removeMin();
 			assertTrue(
@@ -78,15 +80,14 @@ public class PriorityQueueTest {
 					s.size() == 1);
 			s.min();
 			assertTrue(
-					"Tamaño de la cola con prioridad cambio después de invocar min()",
+					"Tamaño de la cola con prioridad cambió después de invocar min()",
 					s.size() == 1);
 			s.removeMin();
 			assertTrue(
 					"Tamaño de la cola con prioridad luego de eliminar el mínimo es != 2",
 					s.size() == 0);
 		} catch (EmptyPriorityQueueException e) {
-			e.printStackTrace();
-			fail("El método min() o removeMin() no debería lanzar EmptyQueueException con una cola con elementos.");
+			fail("Los métodos min() o removeMin() no deberían lanzar EmptyQueueException con una cola con elementos.");
 		}
 
 	}
@@ -139,10 +140,9 @@ public class PriorityQueueTest {
 					!s.isEmpty());
 			s.removeMin();
 			assertTrue(
-					"La cola con prioridad no está vacía justo después de eliminar todos los elementos que ten�a.",
+					"La cola con prioridad no está vacía justo después de eliminar todos los elementos que tenía.",
 					s.isEmpty());
 		} catch (EmptyPriorityQueueException e) {
-			e.printStackTrace();
 			fail("El método min() o removeMin() no debería lanzar EmptyQueueException con una cola con elementos.");
 		}
 
@@ -199,8 +199,7 @@ public class PriorityQueueTest {
 			s.removeMin();
 
 		} catch (EmptyPriorityQueueException e) {
-			e.printStackTrace();
-			fail("El método min() o removeMin() no debería lanzar EmptyQueueException con una cola con elementos.");
+			fail("Los métodos min() o removeMin() no deberían lanzar EmptyQueueException con una cola con elementos.");
 		}
 
 		// Cola vacía
@@ -236,12 +235,11 @@ public class PriorityQueueTest {
 		try {
 			for (int i = 1; i <= 1000; i++) {
 				entrada = s.min();
-				assertTrue("Min() no funciona correctamente", entrada.getKey()
+				assertTrue("min() no funciona correctamente", entrada.getKey()
 						.equals(i));
 				s.removeMin();
 			}
 		} catch (EmptyPriorityQueueException e) {
-			e.printStackTrace();
 			fail("El método min() o removeMin() no debería lanzar EmptyQueueException con una cola con elementos.");
 		}
 

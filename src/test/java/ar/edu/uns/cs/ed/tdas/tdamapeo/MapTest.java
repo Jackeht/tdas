@@ -7,6 +7,7 @@ import static org.junit.Assert.*;
 
 import java.util.*;
 
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,7 +22,9 @@ public class MapTest {
 
 	private Map<Integer, Integer> getMapeo() {
 
-		return new MapeoConHash<Integer, Integer>();
+		Map<Integer, Integer> mapeo = null;
+		//mapeo = new MapeoConHash<Integer, Integer>(); //TODO: Descomentar y crear instancia del TDA a testear
+		return mapeo;
 
 	}
 
@@ -41,6 +44,8 @@ public class MapTest {
 		n2 = 8;
 
 		n3 = 3;
+
+		Assume.assumeNotNull(s);
 				
 	}
 
@@ -51,7 +56,7 @@ public class MapTest {
 
 		// Testeando si put() actualiza el size correctamente.
 
-		assertTrue("Tamaño de Mapeo justo después de ser creada != 0",
+		assertTrue("Tamaño de Mapeo justo después de ser creado != 0",
 				s.size() == 0);
 		try {
 			s.put(i1, n1);

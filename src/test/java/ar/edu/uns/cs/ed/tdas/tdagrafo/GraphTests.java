@@ -3,6 +3,7 @@ package ar.edu.uns.cs.ed.tdas.tdagrafo;
 // Librerías JUNIT
 import static org.junit.Assert.*;
 import org.junit.After;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -38,9 +39,9 @@ public class GraphTests {
 	 */
 	@Before
 	public void setUp() {
-		graph = new ListaDeAdyacencias<Object, Object>(); // cambiar esta línea para probar
-												// distintas implementaciones
+		//graph = new ListaDeAdyacencias<Object, Object>(); //TODO: Descomentar y crear instancia del TDA a testear
 		o1 = new Object();
+		Assume.assumeNotNull(graph);
 	}
 
 	/**
@@ -87,7 +88,7 @@ public class GraphTests {
 	 * vértice nulo.
 	 */
 	@Test(expected = InvalidVertexException.class)
-	public void incidentEdges_nullVertex_throwsIVE() throws InvalidVertexException {
+	public void incidentEdges_nullVertex_throwsIVE() {
 		graph.incidentEdges(null);
 	}
 
@@ -96,7 +97,7 @@ public class GraphTests {
 	 * llama sobre un vértice sin arcos.
 	 */
 	@Test
-	public void incidentEdges_vertexWithoutEdges_returnsEmptyCollection() throws InvalidVertexException {
+	public void incidentEdges_vertexWithoutEdges_returnsEmptyCollection() {
 		Vertex<Object> v1 = graph.insertVertex(new Object());
 		Iterable<Edge<Object>> incidentEdges = graph.incidentEdges(v1);
 		Iterator<Edge<Object>> edgesIterator = incidentEdges.iterator();
@@ -107,11 +108,23 @@ public class GraphTests {
 	
 
 	/**
+	 * Comprueba que el método opposite lanza InvalidVertexException con un
+	 * vértice nulo.
+	 */
+	@Test(expected = InvalidVertexException.class)
+	public void opposite_nullVertex_throwsIVE() {
+		Vertex<Object> v1 = graph.insertVertex(new Object());
+		Vertex<Object> v2 = graph.insertVertex(new Object());
+		Edge<Object> e = graph.insertEdge(v1, v2, new Object());
+		graph.opposite(null, e);
+	}
+
+	/**
 	 * Comprueba que el método opposite lanza InvalidEdgeException con un arco
 	 * nulo.
 	 */
 	@Test(expected = InvalidEdgeException.class)
-	public void opposite_nullEdge_throwsIEE() throws InvalidVertexException, InvalidEdgeException {
+	public void opposite_nullEdge_throwsIEE() {
 		Vertex<Object> v1 = graph.insertVertex(new Object());
 		graph.opposite(v1, null);
 	}
@@ -121,7 +134,7 @@ public class GraphTests {
 	 * incide en el vértice.
 	 */
 	@Test(expected = InvalidEdgeException.class)
-	public void opposite_edgeNotConnected_throwsIEE() throws InvalidEdgeException, InvalidVertexException {
+	public void opposite_edgeNotConnected_throwsIEE() {
 		Vertex<Object> v1 = graph.insertVertex(new Object());
 		Vertex<Object> v2 = graph.insertVertex(new Object());
 		Edge<Object> e = graph.insertEdge(v1, v2, new Object());
@@ -134,7 +147,7 @@ public class GraphTests {
 	 * insertado como primer parámetro del arco (origen).
 	 */
 	@Test
-	public void opposite_predecessorVertex_returnsOpposite() throws InvalidVertexException, InvalidEdgeException {
+	public void opposite_predecessorVertex_returnsOpposite() {
 		Vertex<Object> v1 = graph.insertVertex(new Object());
 		Vertex<Object> v2 = graph.insertVertex(new Object());
 		Edge<Object> e = graph.insertEdge(v1, v2, new Object());
@@ -147,7 +160,7 @@ public class GraphTests {
 	 * insertado como segundo parámetro del arco (destino).
 	 */
 	@Test
-	public void opposite_successorEdge_returnsOpposite() throws InvalidVertexException, InvalidEdgeException {
+	public void opposite_successorEdge_returnsOpposite() {
 		Vertex<Object> v1 = graph.insertVertex(new Object());
 		Vertex<Object> v2 = graph.insertVertex(new Object());
 		Edge<Object> e = graph.insertEdge(v1, v2, new Object());
@@ -160,7 +173,7 @@ public class GraphTests {
 	 * arco nulo.
 	 */
 	@Test(expected = InvalidEdgeException.class)
-	public void endvertices_nullEdge_throwsIEE() throws InvalidEdgeException {
+	public void endvertices_nullEdge_throwsIEE() {
 		graph.endvertices(null);
 	}
 
@@ -169,7 +182,7 @@ public class GraphTests {
 	 * vértices para un arco.
 	 */
 	@Test
-	public void endVertices_normalBehavior_returnsEndVertexs() throws InvalidVertexException, InvalidEdgeException {
+	public void endVertices_normalBehavior_returnsEndVertexs() {
 		Vertex<Object> v1 = graph.insertVertex(new Object());
 		Vertex<Object> v2 = graph.insertVertex(new Object());
 		Edge<Object> e = graph.insertEdge(v1, v2, new Object());
@@ -189,7 +202,7 @@ public class GraphTests {
 	 * el primer vértice es nulo.
 	 */
 	@Test(expected = InvalidVertexException.class)
-	public void areAdjacent_firstVertexNull_throwsIVE() throws InvalidVertexException {
+	public void areAdjacent_firstVertexNull_throwsIVE() {
 		Vertex<Object> v1 = graph.insertVertex(new Object());
 		graph.areAdjacent(null, v1);
 	}
@@ -199,7 +212,7 @@ public class GraphTests {
 	 * el segundo vértice es nulo.
 	 */
 	@Test(expected = InvalidVertexException.class)
-	public void areAdjacent_secondVertexNull_throwsIVE() throws InvalidVertexException {
+	public void areAdjacent_secondVertexNull_throwsIVE() {
 		Vertex<Object> v1 = graph.insertVertex(new Object());
 		graph.areAdjacent(v1, null);
 	}
@@ -209,7 +222,7 @@ public class GraphTests {
 	 * ambos vértices son nulos.
 	 */
 	@Test(expected = InvalidVertexException.class)
-	public void areAdjacent_bothVerticesNull_throwsIVE() throws InvalidVertexException {
+	public void areAdjacent_bothVerticesNull_throwsIVE() {
 		graph.areAdjacent(null, null);
 	}
 
@@ -218,7 +231,7 @@ public class GraphTests {
 	 * adyacentes con un único arco entre ellos.
 	 */
 	@Test
-	public void areAdjacent_adjacentsVerticesPredecessorFirst_returnsTrue() throws InvalidVertexException {
+	public void areAdjacent_adjacentsVerticesPredecessorFirst_returnsTrue() {
 		Vertex<Object> v1 = graph.insertVertex(new Object());
 		Vertex<Object> v2 = graph.insertVertex(new Object());
 		graph.insertEdge(v1, v2, new Object());
@@ -231,7 +244,7 @@ public class GraphTests {
 	 * adyacentes con un único arco entre ellos.
 	 */
 	@Test
-	public void areAdjacent_adjacentsVerticesSuccessorFirst_returnsTrue() throws InvalidVertexException {
+	public void areAdjacent_adjacentsVerticesSuccessorFirst_returnsTrue() {
 		Vertex<Object> v1 = graph.insertVertex(new Object());
 		Vertex<Object> v2 = graph.insertVertex(new Object());
 		graph.insertEdge(v1, v2, new Object());
@@ -244,7 +257,7 @@ public class GraphTests {
 	 * adyacentes con más de un arco entre ellos.
 	 */
 	@Test
-	public void areAdjacent_adjacentsVerticesTwoEdges_returnsTrue() throws InvalidVertexException {
+	public void areAdjacent_adjacentsVerticesTwoEdges_returnsTrue() {
 		Vertex<Object> v1 = graph.insertVertex(new Object());
 		Vertex<Object> v2 = graph.insertVertex(new Object());
 		graph.insertEdge(v1, v2, new Object());
@@ -258,7 +271,7 @@ public class GraphTests {
 	 * adyacentes.
 	 */
 	@Test
-	public void areAdjacent_notAdjacentsVertexs_returnsFalse() throws InvalidVertexException {
+	public void areAdjacent_notAdjacentsVertexs_returnsFalse() {
 		Vertex<Object> v1 = graph.insertVertex(new Object());
 		Vertex<Object> v2 = graph.insertVertex(new Object());
 		assertFalse("El método areAdjacent retorna true para dos vértices no adyacentes.", graph.areAdjacent(v1, v2));
@@ -269,7 +282,7 @@ public class GraphTests {
 	 * vértice nulo.
 	 */
 	@Test(expected = InvalidVertexException.class)
-	public void replace_nullVertex_throwsIVE() throws InvalidVertexException {
+	public void replace_nullVertex_throwsIVE() {
 		Vertex<Object> v = null;
 		graph.replace(v, new Object());
 	}
@@ -279,7 +292,7 @@ public class GraphTests {
 	 * arco nulo.
 	 */
 	@Test(expected = InvalidEdgeException.class)
-	public void replace_nullEdge_throwsIEE() throws InvalidEdgeException {
+	public void replace_nullEdge_throwsIEE() {
 		Edge<Object> e = null;
 		graph.replace(e, new Object());
 	}
@@ -289,7 +302,7 @@ public class GraphTests {
 	 * en el vértice pasado por parámetro.
 	 */
 	@Test
-	public void replace_validVertex_returnsOldElement() throws InvalidVertexException {
+	public void replace_validVertex_returnsOldElement() {
 		Vertex<Object> v1 = graph.insertVertex(o1);
 		assertEquals("El método replace no retorna el elemento previo en el vértice pasado por parámetro.", o1,
 				graph.replace(v1, new Object()));
@@ -301,7 +314,7 @@ public class GraphTests {
 	 * en el arco pasado por parámetro.
 	 */
 	@Test
-	public void replace_validEdge_returnsOldElement() throws InvalidEdgeException {
+	public void replace_validEdge_returnsOldElement() {
 		Vertex<Object> v1 = graph.insertVertex(new Object());
 		Vertex<Object> v2 = graph.insertVertex(new Object());
 		Edge<Object> e = graph.insertEdge(v1, v2, o1);
@@ -315,7 +328,7 @@ public class GraphTests {
 	 * vértice pasado por parámetro.
 	 */
 	@Test
-	public void replace_validVertex_setsNewElement() throws InvalidVertexException {
+	public void replace_validVertex_setsNewElement() {
 		Vertex<Object> v1 = graph.insertVertex(new Object());
 		graph.replace(v1, o1);
 		assertEquals("El método replace no setea correctamente el nuevo elemento del vértice.", o1, v1.element());
@@ -326,7 +339,7 @@ public class GraphTests {
 	 * arco pasado por parámetro.
 	 */
 	@Test
-	public void replace_validEdge_setsNewElement() throws InvalidEdgeException {
+	public void replace_validEdge_setsNewElement() {
 		Vertex<Object> v1 = graph.insertVertex(new Object());
 		Vertex<Object> v2 = graph.insertVertex(new Object());
 		Edge<Object> e = graph.insertEdge(v1, v2, new Object());
@@ -339,7 +352,7 @@ public class GraphTests {
 	 * insertado.
 	 */
 	@Test
-	public void insertVertex_emptyGraph_returnsInsertedVertex() throws InvalidVertexException {
+	public void insertVertex_emptyGraph_returnsInsertedVertex() {
 		Vertex<Object> v1 = graph.insertVertex(o1);
 		assertEquals("El método insertVertex no retorna correctamente el vértice insertado.", o1, v1.element());
 	}
@@ -349,7 +362,7 @@ public class GraphTests {
 	 * de vértices del grafo.
 	 */
 	@Test
-	public void insertVertex_emptyGraph_newVertexInGraph() throws InvalidVertexException {
+	public void insertVertex_emptyGraph_newVertexInGraph() {
 		Vertex<Object> v1 = graph.insertVertex(o1);
 		Iterable<Vertex<Object>> vertices = graph.vertices();
 		Iterator<Vertex<Object>> verticesIterator = vertices.iterator();
@@ -368,7 +381,7 @@ public class GraphTests {
 	 * primer vértice es nulo.
 	 */
 	@Test(expected = InvalidVertexException.class)
-	public void insertEdge_firstVertexNull_throwsIVE() throws InvalidVertexException {
+	public void insertEdge_firstVertexNull_throwsIVE() {
 		Vertex<Object> v1 = graph.insertVertex(new Object());
 		graph.insertEdge(null, v1, new Object());
 	}
@@ -378,7 +391,7 @@ public class GraphTests {
 	 * segundo vértice es nulo.
 	 */
 	@Test(expected = InvalidVertexException.class)
-	public void insertEdge_secondVertexNull_throwsIVE() throws InvalidVertexException {
+	public void insertEdge_secondVertexNull_throwsIVE() {
 		Vertex<Object> v1 = graph.insertVertex(new Object());
 		graph.insertEdge(v1, null, new Object());
 	}
@@ -388,7 +401,7 @@ public class GraphTests {
 	 * ambos vértices son nulos.
 	 */
 	@Test(expected = InvalidVertexException.class)
-	public void insertEdge_bothVerticesNull_throwsIVE() throws InvalidVertexException {
+	public void insertEdge_bothVerticesNull_throwsIVE() {
 		graph.insertEdge(null, null, new Object());
 	}
 
@@ -397,7 +410,7 @@ public class GraphTests {
 	 * insertado.
 	 */
 	@Test
-	public void insertEdge_emptyGraph_returnsInsertedEdge() throws InvalidVertexException {
+	public void insertEdge_emptyGraph_returnsInsertedEdge() {
 		Vertex<Object> v1 = graph.insertVertex(new Object());
 		Vertex<Object> v2 = graph.insertVertex(new Object());
 		Edge<Object> e = graph.insertEdge(v1, v2, o1);
@@ -410,7 +423,7 @@ public class GraphTests {
 	 * arcos del grafo.
 	 */
 	@Test
-	public void insertEdge_emptyGraph_newEdgeInGraph() throws InvalidVertexException, InvalidEdgeException {
+	public void insertEdge_emptyGraph_newEdgeInGraph() {
 		Vertex<Object> v1 = graph.insertVertex(new Object());
 		Vertex<Object> v2 = graph.insertVertex(new Object());
 		Edge<Object> e = graph.insertEdge(v1, v2, o1);
@@ -430,7 +443,7 @@ public class GraphTests {
 	 * incidente en el vértice pasado como primer parámetro al arco.
 	 */
 	@Test
-	public void insertEdge_emptyGraph_EdgeInV1AdjacencyList() throws InvalidVertexException, InvalidEdgeException {
+	public void insertEdge_emptyGraph_EdgeInV1AdjacencyList() {
 		Vertex<Object> v1 = graph.insertVertex(new Object());
 		Vertex<Object> v2 = graph.insertVertex(new Object());
 		Edge<Object> e = graph.insertEdge(v1, v2, o1);
@@ -452,7 +465,7 @@ public class GraphTests {
 	 * incidente en el vértice pasado como segundo parámetro al arco.
 	 */
 	@Test
-	public void insertEdge_emptyGraph_EdgeInV2AdjacencyList() throws InvalidVertexException, InvalidEdgeException {
+	public void insertEdge_emptyGraph_EdgeInV2AdjacencyList() {
 		Vertex<Object> v1 = graph.insertVertex(new Object());
 		Vertex<Object> v2 = graph.insertVertex(new Object());
 		Edge<Object> e = graph.insertEdge(v1, v2, o1);
@@ -474,7 +487,7 @@ public class GraphTests {
 	 * vértice nulo.
 	 */
 	@Test(expected = InvalidVertexException.class)
-	public void removeVertex_nullVertex_throwsIVE() throws InvalidVertexException {
+	public void removeVertex_nullVertex_throwsIVE() {
 		graph.removeVertex(null);
 	}
 
@@ -483,7 +496,7 @@ public class GraphTests {
 	 * del vértice eliminado.
 	 */
 	@Test
-	public void removeVertex_validVertex_returnsElement() throws InvalidVertexException {
+	public void removeVertex_validVertex_returnsElement() {
 		Vertex<Object> v1 = graph.insertVertex(o1);
 		Object element = graph.removeVertex(v1);
 		assertEquals("El método removeVertex no retorna el elemento del vértice eliminado.", o1, element);
@@ -495,7 +508,7 @@ public class GraphTests {
 	 * grafo.
 	 */
 	@Test
-	public void removeVertex_validVertex_removedFromVerticesList() throws InvalidVertexException {
+	public void removeVertex_validVertex_removedFromVerticesList() {
 		Vertex<Object> v1 = graph.insertVertex(o1);
 		graph.removeVertex(v1);
 		Iterable<Vertex<Object>> vertices = graph.vertices();
@@ -511,7 +524,7 @@ public class GraphTests {
 	 * grafo.
 	 */
 	@Test
-	public void removeVertex_vertexWithEdge_removedEdge() throws InvalidVertexException, InvalidEdgeException {
+	public void removeVertex_vertexWithEdge_removedEdge() {
 		Vertex<Object> v1 = graph.insertVertex(new Object());
 		Vertex<Object> v2 = graph.insertVertex(new Object());
 		graph.insertEdge(v1, v2, new Object());
@@ -528,7 +541,7 @@ public class GraphTests {
 	 * nulo.
 	 */
 	@Test(expected = InvalidEdgeException.class)
-	public void removeEdge_nullEdge_throwsIEE() throws InvalidEdgeException {
+	public void removeEdge_nullEdge_throwsIEE() {
 		graph.removeEdge(null);
 	}
 
@@ -537,7 +550,7 @@ public class GraphTests {
 	 * arco eliminado.
 	 */
 	@Test
-	public void removeEdge_validEdge_returnsElement() throws InvalidVertexException, InvalidEdgeException {
+	public void removeEdge_validEdge_returnsElement() {
 		Vertex<Object> v1 = graph.insertVertex(new Object());
 		Vertex<Object> v2 = graph.insertVertex(new Object());
 		Edge<Object> e = graph.insertEdge(v1, v2, o1);
@@ -550,7 +563,7 @@ public class GraphTests {
 	 * mismo ya no es devuelto en la lista de arcos del grafo.
 	 */
 	@Test
-	public void removeEdge_validEdge_removedFromEdgesList() throws InvalidVertexException, InvalidEdgeException {
+	public void removeEdge_validEdge_removedFromEdgesList() {
 		Vertex<Object> v1 = graph.insertVertex(new Object());
 		Vertex<Object> v2 = graph.insertVertex(new Object());
 		Edge<Object> e = graph.insertEdge(v1, v2, new Object());
@@ -566,7 +579,7 @@ public class GraphTests {
 	 * Comprueba que luego de eliminar un arco mediante el método removeEdge, el mismo ya no es devuelvo en la lista de arcos incidentes del predecesor.
 	 */
 	@Test
-	public void removeEdge_validEdge_removedFromPredecessorIncidentEdges() throws InvalidVertexException, InvalidEdgeException {
+	public void removeEdge_validEdge_removedFromPredecessorIncidentEdges() {
 		Vertex<Object> v1 = graph.insertVertex(new Object());
 		Vertex<Object> v2 = graph.insertVertex(new Object());
 		Edge<Object> e = graph.insertEdge(v1, v2, new Object());
@@ -580,7 +593,7 @@ public class GraphTests {
 	 * Comprueba que luego de eliminar un arco mediante el método removeEdge, el mismo ya no es devuelvo en la lista de arcos incidentes del sucesor.
 	 */
 	@Test
-	public void removeEdge_validEdge_removedFromSuccessorIncidentEdges() throws InvalidVertexException, InvalidEdgeException {
+	public void removeEdge_validEdge_removedFromSuccessorIncidentEdges() {
 		Vertex<Object> v1 = graph.insertVertex(new Object());
 		Vertex<Object> v2 = graph.insertVertex(new Object());
 		Edge<Object> e = graph.insertEdge(v1, v2, new Object());
@@ -594,7 +607,7 @@ public class GraphTests {
 	 * Hace una simulación de uso general sobre la estructura.
 	 */
 	@Test
-	public void simulation() throws InvalidVertexException, InvalidEdgeException {
+	public void simulation() {
 		Vertex<Object> v1 = graph.insertVertex(new Object());
 		Vertex<Object> v2 = graph.insertVertex(new Object());
 		for (int i = 0; i < 100; i++) {

@@ -20,8 +20,9 @@ public class StackTest {
 
 	private Stack<String> getStack()
 	{
-	  return new PilaConLista<String>();
-	  
+		Stack<String> pila = null;
+		//pila = new PilaConLista<String>(); //TODO: Descomentar y crear instancia del TDA a testear
+		return pila;	  
 	 }
 	
 	/*
@@ -33,7 +34,7 @@ public class StackTest {
 		n1 = "Uno";
 		n2 = "Dos";
 		n3 = "Tres";
-		
+		Assume.assumeNotNull(s);
 	}
 	/*_______________________TESTEAMOS EL METODO size()_____________________________*/
 	
@@ -78,8 +79,8 @@ public class StackTest {
  
 	  /*_______________________TESTEAMOS EL METODO top()_____________________________*/
 	 
-	  @Test public void top()
-		{try {
+	  @Test public void top() {
+		try {
 		    s.top();
 	        fail("Al ver el tope de una pila vacía (de Strings) no lanza la excepción EmptyStackException");
 	    } catch (EmptyStackException e){}
